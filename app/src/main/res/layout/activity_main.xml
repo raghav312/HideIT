@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="@color/teal_200"
         android:ems="10"
+        android:hint="Message to be masked"
         android:inputType="textPersonName"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
