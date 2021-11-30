@@ -11,7 +11,6 @@ import com.ayush.imagesteganographylibrary.Text.ImageSteganography
 import com.ayush.imagesteganographylibrary.Text.TextDecoding
 import com.example.hideit.databinding.ActivityDecodeBinding
 
-
 class DecodeActivity : AppCompatActivity(),TextDecodingCallback {
 
     private lateinit var binding: ActivityDecodeBinding
@@ -55,17 +54,14 @@ class DecodeActivity : AppCompatActivity(),TextDecodingCallback {
     }
 
     override fun onStartTextEncoding() {
-
     }
 
+    //typo
     override fun onCompleteTextEncoding(result: ImageSteganography?) {
-        
         if(result!=null){
-            
             if(!result.isDecoded){
                 Toast.makeText(this, "No Message found!", Toast.LENGTH_SHORT).show()
             }else{
-                
                 if(!result.isSecretKeyWrong){
                     Toast.makeText(this, "Decoded.", Toast.LENGTH_SHORT).show()
                     binding.tvMessage.text = result.message.toString()
@@ -73,13 +69,8 @@ class DecodeActivity : AppCompatActivity(),TextDecodingCallback {
                     Toast.makeText(this, "Wrong Secret key!", Toast.LENGTH_SHORT).show()
                 }
             }
-            
         }else{
             Toast.makeText(this, "Enter an image", Toast.LENGTH_SHORT).show()
         }
-        
     }
-
-
-
 }

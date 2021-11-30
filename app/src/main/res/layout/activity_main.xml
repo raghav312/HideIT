@@ -18,10 +18,10 @@
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.439"
+        app:layout_constraintHorizontal_bias="0.243"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.27" />
+        app:layout_constraintVertical_bias="0.193" />
 
     <TextView
         android:id="@+id/textView2"
@@ -89,16 +89,38 @@
         android:text="Select Image"
         app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName2"
         app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+        app:layout_constraintVertical_bias="0.636" />
 
     <ImageView
         android:id="@+id/ivCoverImage"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="8dp"
         app:layout_constraintBottom_toBottomOf="@+id/btnSelectImage"
         app:layout_constraintStart_toEndOf="@+id/btnSelectImage"
         app:layout_constraintTop_toTopOf="@+id/btnSelectImage"
+        app:layout_constraintVertical_bias="0.519"
         tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/btnAnonymize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Anonymize"
+        app:layout_constraintStart_toStartOf="@+id/editTextTextPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+
+    <TextView
+        android:id="@+id/tvAnonText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Anonymized message"
+        android:textStyle="italic"
+        app:layout_constraintBottom_toBottomOf="@+id/btnAnonymize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/btnAnonymize"
+        app:layout_constraintTop_toTopOf="@+id/btnAnonymize" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

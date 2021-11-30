@@ -8,7 +8,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ayush.imagesteganographylibrary.Text.AsyncTaskCallback.TextEncodingCallback
@@ -16,14 +15,15 @@ import com.ayush.imagesteganographylibrary.Text.ImageSteganography
 import com.ayush.imagesteganographylibrary.Text.TextEncoding
 import com.example.hideit.databinding.ActivityMainBinding
 import java.io.*
-import java.util.*
 
 class MainActivity : AppCompatActivity() , TextEncodingCallback {
+
     private lateinit var binding: ActivityMainBinding
     private lateinit var imageSteganography:ImageSteganography
     private lateinit var textEncoding:TextEncoding
     private lateinit var cover_img:Bitmap
     private lateinit var encoded_img:Bitmap
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -53,9 +53,13 @@ class MainActivity : AppCompatActivity() , TextEncodingCallback {
     private fun getData() {
         val msg = binding.editTextTextPersonName.text.toString()
         val secret_key = binding.editTextTextPersonName2.text.toString()
-        if(msg.isEmpty() || secret_key.isEmpty() || cover_img == null ){
+        if(msg.isEmpty() || secret_key.isEmpty()){
             Toast.makeText(this, "Fill in fields.", Toast.LENGTH_SHORT).show()
         }else{
+
+            // get Anaonymized msg from api and pass it into ImageStegnography object declaration below
+
+
             imageSteganography = ImageSteganography(msg,secret_key,cover_img)
             textEncoding = TextEncoding(this , this)
             textEncoding.execute(imageSteganography)
@@ -73,7 +77,6 @@ class MainActivity : AppCompatActivity() , TextEncodingCallback {
             saveToGallery(this, encoded_img,"hideIT")
         }
     }
-
     fun saveToGallery(context: Context, bitmap: Bitmap, albumName: String) {
         val filename = "${System.currentTimeMillis()}.png"
         val write: (OutputStream) -> Boolean = {
@@ -81,6 +84,7 @@ class MainActivity : AppCompatActivity() , TextEncodingCallback {
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+
             val contentValues = ContentValues().apply {
                 put(MediaStore.MediaColumns.DISPLAY_NAME, filename)
                 put(MediaStore.MediaColumns.MIME_TYPE, "image/png")
@@ -103,6 +107,4 @@ class MainActivity : AppCompatActivity() , TextEncodingCallback {
         }
         Toast.makeText(context, "File Saved.", Toast.LENGTH_SHORT).show()
     }
-
-
 }
