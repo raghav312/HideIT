@@ -15,20 +15,19 @@ import com.ayush.imagesteganographylibrary.Text.AsyncTaskCallback.TextEncodingCa
 import com.ayush.imagesteganographylibrary.Text.ImageSteganography
 import com.ayush.imagesteganographylibrary.Text.TextEncoding
 import com.example.hideit.databinding.ActivityMainBinding
-import com.example.hideit.jsonclasses.AnalyserData
-import com.example.hideit.jsonclasses.AnalysizedResponse
-import com.example.hideit.jsonclasses.AnalysizedResponseItem
-import com.example.hideit.jsonclasses.AnonymizedResult
+import com.example.hideit.jsonclasses.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
+import java.util.ArrayList
 import java.util.logging.Logger
 import kotlin.math.log
 
 class MainActivity : AppCompatActivity() , TextEncodingCallback {
 
     private lateinit var webServices: WebServices
+    private lateinit var webServices2: WebServices2
     private lateinit var binding: ActivityMainBinding
     private lateinit var imageSteganography:ImageSteganography
     private lateinit var textEncoding:TextEncoding
@@ -39,6 +38,7 @@ class MainActivity : AppCompatActivity() , TextEncodingCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         webServices = WebServices.retrofit.create(WebServices::class.java)
+        webServices2 = WebServices2.retrofit.create(WebServices2::class.java)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.btnEncode.setOnClickListener {
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() , TextEncodingCallback {
     private fun getAnonText(msg: String) {
 
         var analyRes:AnalysizedResponse
-        val dataToBeAnalyzed = AnalyserData("en", msg )
+        val dataToBeAnalyzed = AnalyserData(msg, "en" )
 
         var call:Call<AnalysizedResponse> = webServices.postAnalysized(dataToBeAnalyzed)
 
@@ -101,10 +101,11 @@ class MainActivity : AppCompatActivity() , TextEncodingCallback {
                 if(response.isSuccessful){
                     //send text to be anonymized
                     analyRes = response.body()!!
-                    Toast.makeText(this@MainActivity, "Success!", Toast.LENGTH_SHORT).show()
-                   // val anonymizedResult = performAnonimization(analyRes,msg)
+                    performAnonimization(analyRes,msg)
+
                 }else{
-                    Toast.makeText(this@MainActivity, response.message() , Toast.LENGTH_SHORT).show()
+                    Log.d("util" ,call.request().url().toString() )
+                    Toast.makeText(this@MainActivity, response.code().toString() +" "+ response.message() , Toast.LENGTH_SHORT).show()
                 }
             }
             override fun onFailure(call: Call<AnalysizedResponse>, t: Throwable) {
@@ -113,13 +114,41 @@ class MainActivity : AppCompatActivity() , TextEncodingCallback {
         })
     }
 
-//    private fun performAnonimization(analyRes: AnalysizedResponse,msg:String): AnonymizedResult {
-//        for(a:AnalysizedResponseItem in analyRes){
-//
-//        }
-//
-//
-//    }
+    private fun performAnonimization(analyRes: AnalysizedResponse,msg:String) {
+
+        var arr:MutableList<AnalyzerResult> = ArrayList<AnalyzerResult>()
+        for(a:AnalysizedResponseItem in analyRes){
+            var temp = AnalyzerResult(a.end , a.entity_type , a.score , a.start)
+            arr.add(temp)
+        }
+        Toast.makeText(this@MainActivity, "mid", Toast.LENGTH_SHORT).show()
+        var anonymizedResult:AnonymizedResult? = null
+        var anonymizeText= AnonymizeText(arr, msg)
+        var call:Call<AnonymizedResult> = webServices2.postAnonymizer(anonymizeText)
+        call.enqueue(object :Callback<AnonymizedResult>{
+            override fun onResponse(
+                call: Call<AnonymizedResult>,
+                response: Response<AnonymizedResult>
+            ) {
+                if(response.isSuccessful){
+                    Toast.makeText(this@MainActivity, "Anonymization done!", Toast.LENGTH_SHORT).show()
+                    anonymizedResult = response.body()!!
+
+                }else{
+                    Log.d("util" ,call.request().url().toString() )
+                    Toast.makeText(this@MainActivity, response.code().toString() +" "+ response.message() , Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<AnonymizedResult>, t: Throwable) {
+                Toast.makeText(this@MainActivity, "Check Internet Connection!", Toast.LENGTH_SHORT).show()
+            }
+
+        })
+
+        anonymizedMsg = anonymizedResult!!.text
+        binding.tvAnonText.text = anonymizedMsg
+    }
 
 
     override fun onStartTextEncoding() {
