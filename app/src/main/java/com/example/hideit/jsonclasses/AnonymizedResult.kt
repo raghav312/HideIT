@@ -1,6 +1,6 @@
 package com.example.hideit.jsonclasses
 
 data class AnonymizedResult(
-    val items: List<Item>,
-    val text: String
+    val text: String,
+    val items: List<Item>
 )

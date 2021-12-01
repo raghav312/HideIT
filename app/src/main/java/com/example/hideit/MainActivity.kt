@@ -101,10 +101,12 @@ class MainActivity : AppCompatActivity() , TextEncodingCallback {
                 if(response.isSuccessful){
                     //send text to be anonymized
                     analyRes = response.body()!!
+
+                    Log.d("abc" , analyRes.size.toString())
                     performAnonimization(analyRes,msg)
 
                 }else{
-                    Log.d("util" ,call.request().url().toString() )
+                    Log.d("abc" ,call.request().url().toString() )
                     Toast.makeText(this@MainActivity, response.code().toString() +" "+ response.message() , Toast.LENGTH_SHORT).show()
                 }
             }
@@ -116,14 +118,15 @@ class MainActivity : AppCompatActivity() , TextEncodingCallback {
 
     private fun performAnonimization(analyRes: AnalysizedResponse,msg:String) {
 
-        var arr:MutableList<AnalyzerResult> = ArrayList<AnalyzerResult>()
+        var arr  = ArrayList<AnalyzerResult>()
         for(a:AnalysizedResponseItem in analyRes){
-            var temp = AnalyzerResult(a.end , a.entity_type , a.score , a.start)
+            var temp = AnalyzerResult(a.start ,a.end , a.score  ,a.entity_type)
             arr.add(temp)
         }
-        Toast.makeText(this@MainActivity, "mid", Toast.LENGTH_SHORT).show()
-        var anonymizedResult:AnonymizedResult? = null
-        var anonymizeText= AnonymizeText(arr, msg)
+        Toast.makeText(this@MainActivity, "performing anonimization...", Toast.LENGTH_SHORT).show()
+
+
+        var anonymizeText= AnonymizeText(msg , arr as List<AnalyzerResult>)
         var call:Call<AnonymizedResult> = webServices2.postAnonymizer(anonymizeText)
         call.enqueue(object :Callback<AnonymizedResult>{
             override fun onResponse(
@@ -132,10 +135,11 @@ class MainActivity : AppCompatActivity() , TextEncodingCallback {
             ) {
                 if(response.isSuccessful){
                     Toast.makeText(this@MainActivity, "Anonymization done!", Toast.LENGTH_SHORT).show()
-                    anonymizedResult = response.body()!!
+                    binding.tvAnonText.text = response.body()!!.text
+                    anonymizedMsg = response.body()!!.text
 
                 }else{
-                    Log.d("util" ,call.request().url().toString() )
+                    Log.d("abc" ,call.request().url().toString() )
                     Toast.makeText(this@MainActivity, response.code().toString() +" "+ response.message() , Toast.LENGTH_SHORT).show()
                 }
             }
@@ -145,11 +149,7 @@ class MainActivity : AppCompatActivity() , TextEncodingCallback {
             }
 
         })
-
-        anonymizedMsg = anonymizedResult!!.text
-        binding.tvAnonText.text = anonymizedMsg
     }
-
 
     override fun onStartTextEncoding() {
 
