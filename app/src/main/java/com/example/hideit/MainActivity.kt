@@ -21,8 +21,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.*
 import java.util.ArrayList
-import java.util.logging.Logger
-import kotlin.math.log
 
 class MainActivity : AppCompatActivity() , TextEncodingCallback {
 

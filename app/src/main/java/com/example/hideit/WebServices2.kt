@@ -1,5 +1,7 @@
-package com.example.hideit.jsonclasses
+package com.example.hideit
 
+import com.example.hideit.jsonclasses.AnonymizeText
+import com.example.hideit.jsonclasses.AnonymizedResult
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -16,5 +18,5 @@ interface WebServices2 {
     }
 
     @POST("anonymize")
-    fun postAnonymizer(@Body anonymizeText:AnonymizeText):Call<AnonymizedResult>
+    fun postAnonymizer(@Body anonymizeText: AnonymizeText):Call<AnonymizedResult>
 }

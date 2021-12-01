@@ -9,8 +9,10 @@
 
     <EditText
         android:id="@+id/editTextTextPersonName"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
         android:backgroundTint="@color/teal_200"
         android:ems="10"
         android:hint="Message to be masked"
@@ -19,7 +21,7 @@
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.243"
+        app:layout_constraintHorizontal_bias="0.43"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.193" />
@@ -116,14 +118,18 @@
 
     <TextView
         android:id="@+id/tvAnonText"
-        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         android:text="Anonymized message"
+        android:textColor="@color/black"
         android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="@+id/btnAnonymize"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/btnAnonymize"
-        app:layout_constraintTop_toTopOf="@+id/btnAnonymize" />
+        app:layout_constraintTop_toTopOf="@+id/btnAnonymize"
+        app:layout_constraintVertical_bias="0.482" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
