@@ -120,16 +120,15 @@
         android:id="@+id/tvAnonText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="Anonymized message"
+        android:text="Anonymized message "
         android:textColor="@color/black"
         android:textStyle="italic"
-        app:layout_constraintBottom_toBottomOf="@+id/btnAnonymize"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/ivCoverImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/btnAnonymize"
+        app:layout_constraintStart_toStartOf="@+id/btnAnonymize"
         app:layout_constraintTop_toTopOf="@+id/btnAnonymize"
-        app:layout_constraintVertical_bias="0.482" />
+        app:layout_constraintVertical_bias="0.75" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
