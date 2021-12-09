@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() , TextEncodingCallback {
     private lateinit var textEncoding:TextEncoding
     private lateinit var cover_img:Bitmap
     private lateinit var encoded_img:Bitmap
-    private lateinit var anonymizedMsg:String
+    private var anonymizedMsg:String =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,10 +74,13 @@ class MainActivity : AppCompatActivity() , TextEncodingCallback {
     private fun getData() {
         val msg = binding.editTextTextPersonName.text.toString()
         val secret_key = binding.editTextTextPersonName2.text.toString()
-        if(msg.isEmpty() || secret_key.isEmpty() || anonymizedMsg.isEmpty()){
+        if(msg.isEmpty() || secret_key.isEmpty()){
             Toast.makeText(this, "Fill in fields.", Toast.LENGTH_SHORT).show()
         }else{
             // get Anonymized msg from api and pass it into ImageStegnography object declaration below
+            if(anonymizedMsg.isNullOrEmpty()){
+                anonymizedMsg = binding.editTextTextPersonName.text.toString()
+            }
             imageSteganography = ImageSteganography(anonymizedMsg,secret_key,cover_img)
             textEncoding = TextEncoding(this , this)
             textEncoding.execute(imageSteganography)
